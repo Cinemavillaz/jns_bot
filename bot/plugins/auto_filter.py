@@ -60,6 +60,11 @@ async def auto_filter(bot, update):
     filters = await db.get_filters(group_id, query)
     
     if filters:
+        results.append(
+                [
+                    InlineKeyboardButton("⭕️ Join Updates Channel ⭕️", url="https://t.me/cv_updatez")
+                ]
+            )
         for filter in filters: # iterating through each files
             file_name = filter.get("file_name")
             file_type = filter.get("file_type")
@@ -69,19 +74,20 @@ async def auto_filter(bot, update):
             # from B to MiB
             
             if file_size < 1024:
-                file_size = f"[{file_size} B]"
+                file_size = f"{file_size} B"
             elif file_size < (1024**2):
-                file_size = f"[{str(round(file_size/1024, 2))} KiB] "
+                file_size = f"{str(round(file_size/1024, 2))} KB "
             elif file_size < (1024**3):
-                file_size = f"[{str(round(file_size/(1024**2), 2))} MiB] "
+                file_size = f"{str(round(file_size/(1024**2), 2))} MB "
             elif file_size < (1024**4):
-                file_size = f"[{str(round(file_size/(1024**3), 2))} GiB] "
+                file_size = f"{str(round(file_size/(1024**3), 2))} GB "
             
             
             file_size = "" if file_size == ("[0 B]") else file_size
             
             # add emoji down below inside " " if you want..
-            button_text = f"{file_size}{file_name}"
+            file_names = file_name
+            f_size = file_size
             
 
             if file_type == "video":
@@ -105,7 +111,7 @@ async def auto_filter(bot, update):
             if len(results) >= max_results:
                 break
             
-            if pm_file_chat: 
+            if pm_file_chat:
                 unique_id = filter.get("unique_id")
                 if not FIND.get("bot_details"):
                     try:
@@ -119,14 +125,14 @@ async def auto_filter(bot, update):
                 bot_ = FIND.get("bot_details")
                 file_link = f"https://t.me/{bot_.username}?start={unique_id}"
             
-            results.append(
-                [
-                    InlineKeyboardButton(button_text, url=file_link)
-                ]
-            )
+            results.append([
+            InlineKeyboardButton("📂 " + file_names, url=file_link),
+            InlineKeyboardButton(f_size, url=file_link)
+        ])
         
-    else:
-        return # return if no files found for that query
+    
+        await asyncio.sleep(5)
+        await Send_message.delete()
     
 
     if len(results) == 0: # double check
@@ -136,7 +142,7 @@ async def auto_filter(bot, update):
     
         result = []
         # seperating total files into chunks to make as seperate pages
-        result += [results[i * max_per_page :(i + 1) * max_per_page ] for i in range((len(results) + max_per_page - 1) // max_per_page )]
+        result += [ * max_per_page :(i + 1) * max_per_page ] for i in range((len(results) + max_per_page - 1) // max_per_page )]
         len_result = len(result)
         len_results = len(results)
         results = None # Free Up Memory
@@ -147,13 +153,12 @@ async def auto_filter(bot, update):
         if len_result != 1:
             result[0].append(
                 [
-                    InlineKeyboardButton("Next >>", callback_data=f"navigate(0|next|{query})")
+                    InlineKeyboardButton("𝐍𝐄𝐗𝐓 ⏩", callback_data=f"navigate(0|next|{query})")
                 ]
             )
         
-        # Just A Decaration
-        result[0].append([
-            InlineKeyboardButton(f"📔 Page 1/{len_result if len_result < max_pages else max_pages} 🗞️", callback_data="ignore")
+        #([
+            InlineKeyboardButton(f"🗒 𝐏𝐀𝐆𝐄 1/{len_result if len_result < max_pages else max_pages} ", callback_data="ignore")
         ])
         
         
@@ -201,9 +206,10 @@ async def auto_filter(bot, update):
         reply_markup = InlineKeyboardMarkup(result[0])
 
         try:
-            await bot.send_message(
-                chat_id = update.chat.id,
-                text=f"<b> 𝐆𝐫𝐨𝐮𝐩:-  <b>@Cv_group1</b>  \n𝐑𝐞𝐪𝐮𝐞𝐬𝐭𝐞𝐝 𝐌𝐨𝐯𝐢𝐞:-  {query}  \n𝐑𝐞𝐬𝐮𝐥𝐭𝐬 𝐅𝐨𝐮𝐧𝐝:-  (len_results)}  \n𝐑𝐞𝐪𝐮𝐞𝐬𝐭𝐞𝐝 𝐁𝐲:-  {update.from_user.mention}  \n\n𝗣𝗿𝗲𝘀𝘀 𝗧𝗵𝗲 𝗗𝗼𝘄𝗻 𝗕𝘂𝘁𝘁𝗼𝗻𝘀 𝗧𝗼 𝗔𝗰𝗰𝗲𝘀𝘀 𝗧𝗵𝗲 𝗙𝗶𝗹𝗲   \n\nപടം ലഭിക്കുന്നതിനായി താഴെ കാണുന്ന ബട്ടണുകളിൽ ക്ലിക്ക് ചെയ്യുക👇</b>",
+            await (
+                chat_id=update.chat.id,
+                photo="https://telegra.ph/file/5fcc55f98020dc6e4bcf3.jpg",
+                caption=f"<b>𝐆𝐫𝐨𝐮𝐩:- <b>@cv_group1 </b> \n𝐑𝐞𝐪𝐮𝐞𝐬𝐭𝐞𝐝 𝐌𝐨𝐯𝐢𝐞:- {query} \n𝐑𝐞𝐬𝐮𝐥𝐭𝐬 𝐅𝐨𝐮𝐧𝐝:- {(len_results)} \n𝐑𝐞𝐪𝐮𝐞𝐬𝐭𝐞𝐝 𝐁𝐲:- {update.from_user.mention} \n\n𝗣𝗿𝗲𝘀𝘀 𝗧𝗵𝗲 𝗗𝗼𝘄𝗻 𝗕𝘂𝘁𝘁𝗼𝗻𝘀 𝗧𝗼 𝗔𝗰𝗰𝗲𝘀𝘀 𝗧𝗵𝗲 𝗙𝗶𝗹𝗲 \n\nപടം ലഭിക്കുന്നതിനായി താഴെ കാണുന്ന ബട്ടണുകളിൽ ക്ലിക്ക് ചെയ്യുക👇</b>",
                 reply_markup=reply_markup,
                 parse_mode="html",
                 reply_to_message_id=update.message_id
@@ -214,7 +220,6 @@ async def auto_filter(bot, update):
         
         except Exception as e:
             print(e)
-
 
 async def gen_invite_links(db, group_id, bot, update):
     """
@@ -284,5 +289,4 @@ async def recacher(group_id, ReCacheInvite=True, ReCacheActive=False, bot=Bot, u
                 achatId.append(int(x["chat_id"]))
             
             ACTIVE_CHATS[str(group_id)] = achatId
-    return 
-
+    return
