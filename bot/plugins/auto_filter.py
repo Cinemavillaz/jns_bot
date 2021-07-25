@@ -158,8 +158,6 @@ async def auto_filter(bot, update):
         
         #([
             InlineKeyboardButton(f"🗒 𝐏𝐀𝐆𝐄 1/{len_result if len_result < max_pages else max_pages} ", callback_data="ignore")
-        ])
-        
         
         # if show_invite is True Append invite link buttons
         if show_invite:
