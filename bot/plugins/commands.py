@@ -66,7 +66,7 @@ Join on our channel to get movies ✅
                         [
                             InlineKeyboardButton
                                 (
-                                    'Developers', url="https://t.me/JNS_BOTS"
+                                    '⭐️ Join ⭐️', url="https://t.me/cv_songs"
                                 )
                         ]
                     ]
@@ -85,7 +85,7 @@ Join on our channel to get movies ✅
                         [
                             InlineKeyboardButton
                                 (
-                                    'Developers', url="https://t.me/jns_bots"
+                                    '⭕️ Updatez ⭕️', url="https://t.me/cv_updatez"
                                 )
                         ]
                     ]
@@ -104,7 +104,7 @@ Join on our channel to get movies ✅
                         [
                             InlineKeyboardButton
                                 (
-                                    'Developers', url="https://t.me/jns_bots"
+                                    '🎖️ Filter Channel 🎖️', url="https://t.me/joinchat/n2_vPoGuwig3ZGY1"
                                 )
                         ]
                     ]
@@ -117,10 +117,10 @@ Join on our channel to get movies ✅
         return
 
     buttons = [[
-        InlineKeyboardButton('Developers', url='https://t.me/jns_bots'),
+        InlineKeyboardButton('Developers', url='https://t.me/cv_group1'),
         InlineKeyboardButton('Source Code 🧾', url ='https://t.me/https://t.me/githubsoursecode')],                               
      [
-        InlineKeyboardButton('Support 🛠', url='https://t.me/jns_fc_bots')
+        InlineKeyboardButton('Support 🛠', url='https://t.me/cv_updatez')
     ],[
         InlineKeyboardButton('Help ⚙', callback_data="help")
     ]]
